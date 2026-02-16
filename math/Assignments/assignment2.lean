@@ -1,6 +1,6 @@
 import Mathlib.Analysis.InnerProductSpace.PiL2
 --import Mathlib.Analysis.InnerProductSpace.Basic
-
+/-100/100, great job!-/
 /-
 This assignment is due midnight on Friday, February 6, 2026
 
@@ -129,7 +129,6 @@ theorem add_self (x : R) : x + x = 0 := by
     _ = x + x + (x + x) := by
       rw[pow_two, mul_add, add_mul]
       repeat rw[mul_idem idem]
-
   have h2 : (x + x) + (x + x) - (x + x) = (x + x) - (x + x) := by
      rw [←h1]
   rw [add_sub_cancel_right, sub_self] at h2
@@ -187,7 +186,6 @@ theorem mul_comm (x y : R) : x * y = y * x := by
       rw[pow_two, mul_add, add_mul, add_mul]
       repeat rw[mul_idem idem]
       abel
-
   have h2 : 0 = x * y + y * x := by
     exact add_right_cancel h1
   show x * y = y * x
