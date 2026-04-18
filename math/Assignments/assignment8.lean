@@ -2,6 +2,7 @@ import Mathlib.Tactic
 import Mathlib.Util.Delaborators
 import Mathlib.Data.Real.Basic
 import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Finset.Basic
 
 set_option warningAsError false
 --note a new option set for `  induction'  ` tactic
@@ -168,8 +169,16 @@ theorem subst_eq_of_not_mem_free_variables :
       subst_eq_of_not_mem_free_variables]
   · exact h.2
   exact h.1
-| (disj A B), n, C, h => sorry
-| (impl A B), n, C, h => sorry
+| (disj A B), n, C, h => by
+  simp[free_variables] at h
+  rw[subst, subst_eq_of_not_mem_free_variables, subst_eq_of_not_mem_free_variables]
+  · exact h.2
+  exact h.1
+| (impl A B), n, C, h => by
+  simp [free_variables] at h
+  rw[subst, subst_eq_of_not_mem_free_variables, subst_eq_of_not_mem_free_variables]
+  · exact h.2
+  exact h.1
 
 -- complete this theorem, including the inductive structure.
 -- try in class
@@ -179,15 +188,20 @@ theorem subst_eq_of_not_mem_free_variables :
 theorem subst_eval_eq : ∀ (A : PropForm) (n : ℕ) (C : PropForm) (v : ℕ → Bool),
   (A.subst n C).eval v = A.eval (fun m ↦ if m = n then C.eval v else v m)
 | (var m), n, C, v => by
-      sorry
+    rw [subst]; split_ifs with h0
+    · simp only [eval, h0]
+      rw[if_true]
+    simp only [eval, h0]
+    rw[if_false]
 | fls, n, C, v => by
-      sorry
+    rw[subst, eval, eval]
 | (conj A B), n, C, v => by
-      sorry
+    simp only [subst, eval, subst_eval_eq]
 | (disj A B), n, C, v => by
-      sorry
+    simp only [subst, eval, subst_eval_eq]
 | (impl A B), n, C, v => by
-      sorry
+    simp only [subst, eval, subst_eval_eq]
+    
 
 
 
